@@ -1,10 +1,12 @@
-# Go E-mail sender
+# Go email sender
 
-This project is a simple prove of concept of how to send e-mails using Go.
+This project is a simple prove of concept of how to send emails using Go.
 
 --- 
 
-## Email sender service provider
+## Service providers
+
+In this project I used three different service providers to send emails:
 
 - [net/smtp](https://pkg.go.dev/net/smtp)
 - [Gomail](https://pkg.go.dev/gopkg.in/gomail.v2)
