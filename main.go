@@ -9,7 +9,7 @@ import (
 	"github.com/joho/godotenv"
 )
 
-func sendMailSMTP() {
+func sendMailSMTP(subject string, message string, to []string) {
 	auth := smtp.PlainAuth(
 		"",
 		os.Getenv("EMAIL"),
@@ -17,15 +17,13 @@ func sendMailSMTP() {
 		"smtp.gmail.com",
 	)
 
-	msg := "Subject: Hello there!\nThis is the email body."
+	msg := "Subject: " + subject + "\n" + message
 
 	err := smtp.SendMail(
 		"smtp.gmail.com:587",
 		auth,
 		os.Getenv("EMAIL"),
-		[]string{
-			os.Getenv("EMAIL"),
-		},
+		to,
 		[]byte(msg),
 	)
 	if err != nil {
@@ -43,5 +41,7 @@ func init() {
 }
 
 func main() {
-	sendMailSMTP()
+	sendMailSMTP("Test", "This is a test email", []string{
+		os.Getenv("EMAIL"),
+	})
 }
