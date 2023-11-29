@@ -1,10 +1,12 @@
 package main
 
 import (
+	"bytes"
 	"fmt"
 	"log"
 	"net/smtp"
 	"os"
+	"text/template"
 
 	"github.com/joho/godotenv"
 )
@@ -33,7 +35,12 @@ func sendMailSMTP(subject string, message string, to []string) {
 	fmt.Println("Email sent successfully!")
 }
 
-func sendMailHTML(subject string, html string, to []string) {
+func sendMailHTML(subject string, templatePath string, to []string) {
+	var body bytes.Buffer
+
+	t, err := template.ParseFiles(templatePath)
+	t.Execute(&body, struct{ Message string }{Message: "Hello from gbL"})
+
 	auth := smtp.PlainAuth(
 		"",
 		os.Getenv("EMAIL"),
@@ -43,9 +50,9 @@ func sendMailHTML(subject string, html string, to []string) {
 
 	headers := "MIME-version: 1.0;\nContent-Type: text/html; charset=\"UTF-8\";"
 
-	msg := "Subject: " + subject + "\n" + headers + "\n\n" + html
+	msg := "Subject: " + subject + "\n" + headers + "\n\n" + body.String()
 
-	err := smtp.SendMail(
+	err = smtp.SendMail(
 		"smtp.gmail.com:587",
 		auth,
 		os.Getenv("EMAIL"),
@@ -73,8 +80,8 @@ func main() {
 	// 		os.Getenv("EMAIL"),
 	// 	})
 
-	sendMailHTML("Test",
-		"<h1>This is a test email</h1><br/><p>With some html</p>",
+	sendMailHTML("golang SMTP Test",
+		"./test.html",
 		[]string{
 			os.Getenv("EMAIL"),
 		})
