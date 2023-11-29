@@ -10,7 +10,7 @@ In this project I used three different service providers to send emails:
 
 - [x] [net/smtp](https://pkg.go.dev/net/smtp)
 - [x] [Gomail](https://pkg.go.dev/gopkg.in/gomail.v2)
-- [SendGrid](https://sendgrid.com/en-us)
+- [ ] [SendGrid](https://sendgrid.com/en-us)
 
 ## How to use
 
